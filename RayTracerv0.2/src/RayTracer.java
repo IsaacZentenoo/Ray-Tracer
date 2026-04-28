@@ -12,7 +12,7 @@ public class RayTracer {
 
         Camera camera = new Camera(new Vector3D(0, 0, 0), 2, 2, 1, 0.1, 100);
         Scene scene = new Scene(camera);
-        
+        scene.addObject(new Sphere(new Vector3D(4, 0, 8), 1, Color.RED));
         scene.addObject(new Triangle( new Vector3D(-0.8, -0.6, 2.5), new Vector3D(0.0, 0.8, 2.5), new Vector3D(0.8, -0.6, 2.5),Color.ORANGE));
         Color BackgroundColor = Color.BLACK;
 
