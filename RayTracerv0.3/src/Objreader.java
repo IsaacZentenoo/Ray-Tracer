@@ -85,9 +85,7 @@ public class Objreader {
                 if (face.length < 3) {
                     continue;
                 }
-
                 Vector3D firstVertex = transformedVertices.get(face[0]);
-
                 for (int i = 1; i < face.length - 1; i++) {
                     Vector3D secondVertex = transformedVertices.get(face[i]);
                     Vector3D thirdVertex = transformedVertices.get(face[i + 1]);
