@@ -17,7 +17,7 @@ public class RayTracer {
         );
         Scene scene = new Scene(camera);
         List<Triangle> plant =
-            Objreader.loadOBJ("indoor_plant_02.obj", Color.CYAN);
+            Objreader.loadOBJ("bicycle.obj", Color.CYAN);
         for (Triangle t : plant) {
             scene.addObject(t);
         }
