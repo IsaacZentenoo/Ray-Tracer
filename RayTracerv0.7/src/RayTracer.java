@@ -17,18 +17,18 @@ public class RayTracer {
             new Vector3D(0, 0, 0), 2, 2, 1,0.1, 100
         );
         Scene scene = new Scene(camera);
-        List<Triangle> plant = Objreader.loadOBJ("indoor_plant_02.obj", new Color(20, 140, 70));
+        List<Triangle> plant = Objreader.loadOBJ("taza.obj", new Color(190, 15, 15));
         for (Triangle t : plant) {
             scene.addObject(t);
         }
-        scene.addObject(new Triangle(new Vector3D(-3.0, -1.2, 2.0),new Vector3D(3.0, -1.2, 2.0),new Vector3D(3.0, -1.2, 6.0),
-        new Color(140, 140, 140)));
+        scene.addObject(new Triangle(new Vector3D(-4.0, -1.1, 1.0),new Vector3D(3.0, -1.2, 2.0),new Vector3D(3.0, -1.2, 6.0),
+        new Color(100,100, 100)));
         
         scene.addObject(new Triangle(new Vector3D(-3.0, -1.2, 2.0),new Vector3D(3.0, -1.2, 6.0),new Vector3D(-3.0, -1.2, 6.0),
-        new Color(140, 140, 140)));
+        new Color(60, 60, 60)));
         List <Light> lights =  new ArrayList<>();
-        lights.add(new Light(Light.POINT,new Vector3D(-2.5, 2.5, 2.0),Color.WHITE,25.0));
-        lights.add(new Light(Light.DIRECTIONAL,new Vector3D(0, 0.3, -1.0),Color.WHITE,0.25));
+        lights.add(new Light(Light.POINT,new Vector3D(1.8, 0.3, 2.4),Color.WHITE,18));
+        //lights.add(new Light(Light.DIRECTIONAL,new Vector3D(0, 0.3, -1.0),Color.WHITE,0.45));
 
         Color backgroundColor = Color.BLACK;
         for (int y = 0; y < height; y++) {
@@ -69,7 +69,7 @@ public class RayTracer {
         normal = normal.normalize();
 
         Color objectColor = intersection.object.getColor();
-        double ambient = 0.15;
+        double ambient = 0.08;
 
         double red = objectColor.getRed() * ambient;
         double green = objectColor.getGreen() * ambient;
@@ -98,10 +98,11 @@ public class RayTracer {
 
         return new Color((int) red, (int) green, (int) blue);
 }
+
     public static boolean isInShadow(Intersection intersection, Light light, Scene scene) {
     double epsilon = 0.001;
     Vector3D lightDirection = light.getDirectionFrom(intersection.point);
-    Vector3D shadowOrigin = intersection.point.add(lightDirection.multiply(epsilon));
+    Vector3D shadowOrigin = intersection.point.add(intersection.normal.normalize().multiply(epsilon));
     Ray shadowRay = new Ray(shadowOrigin, lightDirection);
     double maxDistance;
     if (light.type == Light.POINT) {
@@ -110,10 +111,14 @@ public class RayTracer {
         maxDistance = 1000.0;
     }
     for (Object3D object : scene.objects) {
+        if (object == intersection.object) {
+            continue;
+        }
         Intersection shadowIntersection = object.intersect(shadowRay, epsilon, maxDistance);
         if (shadowIntersection.hit) {
             return true;
         }
     }
     return false;
-}}
+}
+}
