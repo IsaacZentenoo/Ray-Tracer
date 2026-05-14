@@ -21,13 +21,21 @@ public class RayTracer {
         for (Triangle t : plant) {
             scene.addObject(t);
         }
-        scene.addObject(new Triangle(new Vector3D(-4.0, -1.1, 1.0),new Vector3D(3.0, -1.2, 2.0),new Vector3D(3.0, -1.2, 6.0),
-        new Color(100,100, 100)));
+        scene.addObject(new Triangle(
+        new Vector3D(-4.0, -1.2, 1.8),
+        new Vector3D(4.0, -1.2, 8.0),
+        new Vector3D(4.0, -1.2, 1.8),
+        new Color(85, 85, 85)
+        ));
         
-        scene.addObject(new Triangle(new Vector3D(-3.0, -1.2, 2.0),new Vector3D(3.0, -1.2, 6.0),new Vector3D(-3.0, -1.2, 6.0),
-        new Color(60, 60, 60)));
+        scene.addObject(new Triangle(
+        new Vector3D(-4.0, -1.2, 1.8),
+        new Vector3D(-4.0, -1.2, 8.0),
+        new Vector3D(4.0, -1.2, 8.0),
+        new Color(85, 85, 85)
+        ));
         List <Light> lights =  new ArrayList<>();
-        lights.add(new Light(Light.POINT,new Vector3D(1.8, 0.3, 2.4),Color.WHITE,18));
+        lights.add(new Light(Light.POINT,new Vector3D(-2.5, 1.5, 2.2),Color.WHITE,45));
         //lights.add(new Light(Light.DIRECTIONAL,new Vector3D(0, 0.3, -1.0),Color.WHITE,0.45));
 
         Color backgroundColor = Color.BLACK;
