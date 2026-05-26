@@ -8,7 +8,7 @@ import java.awt.Color;
 
 public class Objreader {
 
-    public static List<Triangle> loadOBJ(String filename, Color color) {
+    public static List<Triangle> loadOBJ(String filename,Color color,Vector3D position,double scaleFactor) {
         List<Vector3D> vertices = new ArrayList<>();
         List<Triangle> triangles = new ArrayList<>();
         List<int[]> faces = new ArrayList<>();
@@ -72,10 +72,9 @@ public class Objreader {
 
             List <Vector3D>finalVertices = new ArrayList<>();
             for (Vector3D vertex : vertices) {
-                double scaleFactor = 1.2;
-                double x = (vertex.x - centerX) * scale * scaleFactor;
-                double y = (vertex.y - centerY) * scale * scaleFactor;
-                double z = (vertex.z - centerZ) * scale * scaleFactor + 3.5;
+            double x = (vertex.x - centerX) * scale * scaleFactor + position.x;
+            double y = (vertex.y - centerY) * scale * scaleFactor + position.y;
+            double z = (vertex.z - centerZ) * scale * scaleFactor + position.z;
                 finalVertices.add(new Vector3D(x, y, z));
             }
 

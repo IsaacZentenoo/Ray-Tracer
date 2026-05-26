@@ -12,6 +12,7 @@ public class Intersection {
         this.object = object;
         this.normal = null;
     }
+
     public Intersection(boolean hit, Vector3D point, double distance, Object3D object, Vector3D normal) {
         this.hit = hit;
         this.point = point;
