@@ -125,16 +125,16 @@ public class RayTracer {
                 new Color(255, 250, 220), 18.0, 30.0));
         }
         scene.setBackgroundColor(new Color(5, 8, 15));
-        scene.setAmbient(0.30);
+        scene.setAmbient(0.45);
 
         scene.addLight(new PointLight(
             new Vector3D(0, ceilY-0.8, trophyZ),
-            new Color(255, 248, 220), 5.0));
+            new Color(255, 248, 220), 20.0));
 
         scene.addLight(new SpotLight(
             new Vector3D(0, ceilY-0.5, Z1-1.5),
             new Vector3D(0, -0.2, Z1-0.12),
-            new Color(255, 240, 180), 15.0, 35.0));
+            new Color(255, 240, 180), 15.0, 45.0));
 
         BVH bvh = BVH.build(scene.objects);
         int[] pixels = new int[width * height];
