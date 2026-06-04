@@ -8,7 +8,7 @@ import java.util.stream.IntStream;
 
 public class RayTracer {
     static final int AA_SAMPLES = 6;
-    static final int MAX_DEPTH  = 5;
+    static final int MAX_DEPTH  = 6;
 
     public static List<Triangle> rotateY(List<Triangle> tris, double deg) {
         double c = Math.cos(Math.toRadians(deg)), s = Math.sin(Math.toRadians(deg));
@@ -40,7 +40,6 @@ public class RayTracer {
         }
         return out;
     }
-
     public static List<Triangle> rotateZ(List<Triangle> tris, double deg) {
         double c = Math.cos(Math.toRadians(deg)), s = Math.sin(Math.toRadians(deg));
         List<Triangle> out = new ArrayList<>();
@@ -56,7 +55,6 @@ public class RayTracer {
         }
         return out;
     }
-
     public static List<Triangle> scale(List<Triangle> tris, double sx, double sy, double sz) {
         List<Triangle> out = new ArrayList<>();
         for (Triangle t : tris) {
@@ -95,6 +93,22 @@ public class RayTracer {
         scene.addObject(f1);
         scene.addObject(f2);
 
+        double waterY = floorY + 0.02;
+        Color waterCol = new Color(30, 50, 80);
+
+        Triangle w1 = new Triangle(
+            new Vector3D(-3.5, waterY, 3.5),
+            new Vector3D( 3.5, waterY, 3.5),
+            new Vector3D( 3.5, waterY, 9.0), waterCol);
+        Triangle w2 = new Triangle(
+            new Vector3D(-3.5, waterY, 3.5),
+            new Vector3D( 3.5, waterY, 9.0),
+            new Vector3D(-3.5, waterY, 9.0), waterCol);
+        w1.setFullMaterial(0.4, 512, 0.8, 0.7, 1.33);
+        w2.setFullMaterial(0.4, 512, 0.8, 0.7, 1.33);
+        scene.addObject(w1);
+        scene.addObject(w2);
+
         List<Triangle> city = Objreader.loadOBJ(
             "./models/city.obj", null, new Vector3D(0,0,0), 1.0);
         city = scale(city, 10.0, 10.0, 10.0);
@@ -127,7 +141,6 @@ public class RayTracer {
             new Color(200, 210, 255), 5.0));
 
         BVH bvh = BVH.build(scene.objects);
-
         int[] pixels = new int[width * height];
         System.out.println("Rendering " + width + "x" + height + "...");
         long t0 = System.currentTimeMillis();
@@ -186,8 +199,8 @@ public class RayTracer {
         for (Light light : scene.lights) {
             if (isInShadow(hit, light, bvh)) continue;
             Vector3D ld = light.getDirectionFrom(hit.point);
-            double dot  = Math.max(0, normal.dot(ld));
-            double fo   = light.getFalloff(hit.point);
+            double dot = Math.max(0, normal.dot(ld));
+            double fo = light.getFalloff(hit.point);
             if (fo <= 0) continue;
             double lr = light.color.getRed()  /255.0;
             double lg = light.color.getGreen()/255.0;
@@ -237,7 +250,6 @@ public class RayTracer {
         double r = (n1-n2)/(n1+n2); r*=r;
         return r+(1-r)*Math.pow(1-c,5);
     }
-
     public static boolean isInShadow(Intersection hit, Light light, BVH bvh) {
         Vector3D n = (hit.normal!=null)?hit.normal.normalize():new Vector3D(0,0,1);
         Ray sr = new Ray(hit.point.add(n.multiply(0.1)), light.getDirectionFrom(hit.point));
@@ -245,7 +257,6 @@ public class RayTracer {
         Intersection sh = bvh.intersect(sr, 0.1, md);
         return sh.hit && sh.object!=hit.object && sh.object.getTransparency()<=0.5;
     }
-
     public static List<Triangle> centerAndPlace(List<Triangle> tris, double tx, double ty, double tz) {
         double minX=Double.MAX_VALUE, minY=Double.MAX_VALUE, minZ=Double.MAX_VALUE;
         double maxX=-Double.MAX_VALUE, maxY=-Double.MAX_VALUE, maxZ=-Double.MAX_VALUE;
@@ -269,7 +280,6 @@ public class RayTracer {
         }
         return out;
     }
-
     public static int    clamp(double v){return(int)Math.max(0,Math.min(255,v));}
     public static double clampD(double v){return Math.max(0,Math.min(255,v));}
 }

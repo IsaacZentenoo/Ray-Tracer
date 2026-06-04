@@ -141,11 +141,8 @@ public class RayTracer {
        bicycle = centerAndPlace(bicycle, cx3, peY, pz3);
        for (Triangle t : bicycle) { t.setFullMaterial(0.5,128,0.7,0.0,1.0); scene.addObject(t); }
 
-       // Cubo de vidrio — refraccion visible enfrente de los pedestales
-       addGlassBox(scene,
-           -0.4, -L,       3.2,
-            0.4, -L+1.4,   3.8,
-           new Color(210, 235, 255));
+
+       addGlassBox(scene,-0.4, -L,  3.2,0.4, -L+1.4,   3.8,new Color(210, 235, 255));
 
        scene.setBackgroundColor(new Color(5, 8, 15));
        scene.setAmbient(0.6);
